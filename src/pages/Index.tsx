@@ -1,11 +1,39 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import React, { useState } from 'react';
+import Navigation from '@/components/Navigation';
+import AddNote from '@/components/AddNote';
+import NotesList from '@/components/NotesList';
 
 const Index = () => {
+  const [activeView, setActiveView] = useState<'add' | 'view'>('add');
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
+
+  const handleNoteAdded = () => {
+    // Increment trigger to refresh the notes list
+    setRefreshTrigger(prev => prev + 1);
+    // Switch to the view notes tab
+    setActiveView('view');
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
+    <div className="min-h-screen p-4 bg-background">
+      <div className="max-w-5xl mx-auto">
+        <header className="mb-8 text-center">
+          <h1 className="text-3xl font-bold mb-2">Quick Note Stash</h1>
+          <p className="text-muted-foreground">
+            A simple place to jot down and keep track of your notes
+          </p>
+        </header>
+
+        <Navigation activeView={activeView} onViewChange={setActiveView} />
+
+        <main className="py-4">
+          {activeView === 'add' ? (
+            <AddNote onNoteAdded={handleNoteAdded} />
+          ) : (
+            <NotesList refreshTrigger={refreshTrigger} />
+          )}
+        </main>
       </div>
     </div>
   );

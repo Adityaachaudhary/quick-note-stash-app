@@ -1,73 +1,57 @@
-# Welcome to your Lovable project
 
-## Project info
+# Quick Note Stash
 
-**URL**: https://lovable.dev/projects/34bfb949-e1fd-4558-a58d-65cd63970ad1
+A simple note-taking application built with React that allows users to create and view notes with client-side persistence.
 
-## How can I edit this code?
+## Setup & Run
 
-There are several ways of editing your application.
+```bash
+# Install dependencies
+npm install
 
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/34bfb949-e1fd-4558-a58d-65cd63970ad1) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Run development server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+The application will be available at http://localhost:8080
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Design Decisions
 
-**Use GitHub Codespaces**
+### Storage Strategy
+- **Why localStorage + key naming**: Using localStorage provides a simple persistence mechanism without requiring a backend server. The key prefix "note-stash-notes" prevents collisions with other potential localStorage items used by the application.
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### Component Design
+- **Why separate component files**: Components are separated into individual files following the single responsibility principle. This makes the codebase more maintainable and easier to understand.
+- **AddNote component**: Uses controlled inputs with useState for form management, providing tight control over validation and submission flow.
+- **NotesList component**: Uses useEffect to sync storage with component state, ensuring data is always fresh when the component mounts or when new notes are added.
 
-## What technologies are used for this project?
+### State Management
+- **Why local component state**: For this small application, React's built-in useState is sufficient. More complex applications might benefit from context or Redux, but they would add unnecessary complexity here.
+- **Parent-child communication**: We use prop passing for communication between components, with callback functions for events like note creation.
 
-This project is built with:
+### Styling
+- **Why Tailwind CSS**: Tailwind provides utility classes that make it fast to style components without leaving the JSX or writing custom CSS files, resulting in more productive development.
+- **Card components**: Using shadcn/ui components provides a consistent UI with less boilerplate code, while still allowing customization.
 
-- Vite
-- TypeScript
+### Navigation
+- **Why tab-style navigation**: Simple tab navigation keeps the UI focused on a single task at a time while avoiding more complex routing mechanisms, which would be overkill for a two-view application.
+
+### Error & Loading States
+- **Error handling**: Errors during storage operations are caught and displayed in user-friendly messages.
+- **Loading indicators**: Loading states provide feedback during operations, even though localStorage operations are typically fast.
+
+## Future Enhancements
+
+- Note editing functionality
+- Note deletion
+- Search/filter capabilities
+- Categories or tags for organizing notes
+- Rich text formatting options
+
+## Technologies Used
+
 - React
-- shadcn-ui
+- TypeScript
 - Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/34bfb949-e1fd-4558-a58d-65cd63970ad1) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+- shadcn/ui components
+- localStorage for persistence
