@@ -2,6 +2,7 @@
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatDistanceToNow } from 'date-fns';
+import { Clock } from "lucide-react";
 
 // Define the Note type
 export interface Note {
@@ -23,17 +24,25 @@ const NoteCard: React.FC<NoteCardProps> = ({ note }) => {
     { addSuffix: true }
   );
 
+  // Format time for display
+  const updatedTime = new Date(note.updatedAt).toLocaleTimeString('en-US', {
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true
+  });
+
   // Create a snippet of content (first 100 characters)
   const contentSnippet = note.content.length > 100 
     ? `${note.content.substring(0, 100)}...` 
     : note.content;
 
   return (
-    <Card className="bg-note hover:bg-note-hover border-note-border transition-colors">
+    <Card className="bg-note hover:bg-note-hover border-note-border transition-colors hover:shadow-md">
       <CardHeader className="pb-2">
         <CardTitle className="text-lg font-medium">{note.title}</CardTitle>
-        <CardDescription className="text-xs">
-          Updated {formattedDate}
+        <CardDescription className="text-xs flex items-center gap-1">
+          <Clock className="h-3 w-3" />
+          <span>Updated {formattedDate} at {updatedTime}</span>
         </CardDescription>
       </CardHeader>
       <CardContent>

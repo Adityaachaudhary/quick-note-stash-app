@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { addNote } from "@/utils/storage";
 import { toast } from 'sonner';
+import { Save } from "lucide-react";
 
 interface AddNoteProps {
   onNoteAdded: () => void;
@@ -60,44 +61,53 @@ const AddNote: React.FC<AddNoteProps> = ({ onNoteAdded }) => {
   };
   
   return (
-    <Card className="w-full max-w-2xl mx-auto">
-      <CardHeader>
-        <CardTitle className="text-center">Add a New Note</CardTitle>
+    <Card className="w-full max-w-2xl mx-auto border-2 border-muted shadow-lg animate-fade-in">
+      <CardHeader className="bg-muted/30">
+        <CardTitle className="text-center text-primary">Create a New Note</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="pt-6">
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="title">Title</Label>
+            <Label htmlFor="title" className="text-sm font-medium">Title</Label>
             <Input
               id="title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="Note Title"
+              placeholder="Enter your note title here..."
               disabled={isSaving}
-              className="focus:ring-2 focus:ring-offset-0"
+              className="focus:ring-2 focus:ring-primary focus:ring-offset-0 transition-all"
             />
           </div>
           
           <div className="space-y-2">
-            <Label htmlFor="content">Content</Label>
+            <Label htmlFor="content" className="text-sm font-medium">Content</Label>
             <Textarea
               id="content"
               value={content}
               onChange={(e) => setContent(e.target.value)}
-              placeholder="Write your note here..."
+              placeholder="Write your thoughts here..."
               rows={8}
               disabled={isSaving}
-              className="resize-y min-h-[150px] focus:ring-2 focus:ring-offset-0"
+              className="resize-y min-h-[150px] focus:ring-2 focus:ring-primary focus:ring-offset-0 transition-all"
             />
           </div>
           
-          <div className="pt-2">
+          <div className="pt-4">
             <Button 
               type="submit" 
               className="w-full" 
               disabled={isSaving}
             >
-              {isSaving ? 'Saving...' : 'Save Note'}
+              {isSaving ? (
+                <>
+                  <span className="animate-pulse mr-2">Saving...</span>
+                </>
+              ) : (
+                <>
+                  <Save className="mr-2 h-4 w-4" />
+                  Save Note
+                </>
+              )}
             </Button>
           </div>
         </form>

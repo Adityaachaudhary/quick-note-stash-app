@@ -1,6 +1,8 @@
+
 import React, { useState, useEffect } from 'react';
 import { getNotes } from '@/utils/storage';
 import NoteCard, { Note } from './NoteCard';
+import { Calendar } from "lucide-react";
 
 interface NotesListProps {
   refreshTrigger: number;
@@ -38,9 +40,10 @@ const NotesList: React.FC<NotesListProps> = ({ refreshTrigger }) => {
   
   if (isLoading) {
     return (
-      <div className="w-full p-8 flex justify-center">
-        <div className="animate-pulse text-center">
-          <p className="text-lg text-muted-foreground">Loading notes...</p>
+      <div className="w-full p-12 flex justify-center">
+        <div className="animate-pulse text-center space-y-2">
+          <div className="h-6 w-24 bg-muted rounded mx-auto"></div>
+          <p className="text-lg text-muted-foreground">Loading your notes...</p>
         </div>
       </div>
     );
@@ -48,15 +51,16 @@ const NotesList: React.FC<NotesListProps> = ({ refreshTrigger }) => {
   
   if (error) {
     return (
-      <div className="w-full p-4 bg-destructive/10 text-destructive rounded-md">
-        <p className="text-center">{error}</p>
+      <div className="w-full p-6 bg-destructive/10 text-destructive rounded-md shadow-sm">
+        <p className="text-center font-medium">{error}</p>
       </div>
     );
   }
   
   if (notes.length === 0) {
     return (
-      <div className="w-full p-8 text-center">
+      <div className="w-full p-12 text-center bg-muted/20 rounded-lg shadow-sm">
+        <Calendar className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
         <h3 className="text-xl font-medium mb-2">No notes yet</h3>
         <p className="text-muted-foreground">Create your first note to get started!</p>
       </div>
@@ -64,8 +68,9 @@ const NotesList: React.FC<NotesListProps> = ({ refreshTrigger }) => {
   }
   
   return (
-    <div className="w-full">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div className="w-full animate-fade-in">
+      <h2 className="text-xl font-medium mb-6 text-center">Your Notes</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {notes.map(note => (
           <NoteCard key={note.id} note={note} />
         ))}
